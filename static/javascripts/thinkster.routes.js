@@ -9,6 +9,11 @@
 		            templateUrl: '/static/templates/authentication/register.html',
 		            controller: 'RegisterController',
                     controllerAs: 'vm'
+		        }).
+                when('/login', {
+		            templateUrl: '/static/templates/authentication/login.html',
+		            controller: 'LoginController',
+                    controllerAs: 'vm'
 		        })
                 .otherwise('/');
         }]);

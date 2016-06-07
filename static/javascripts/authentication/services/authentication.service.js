@@ -11,7 +11,11 @@
                     username: username,
                     password: password,
                     email: email
-                });
+                }).then(function(data, status, headers, config) {
+                    login(email, password);
+                  }, function(data, status, headers, config) {
+                    console.error('Epic failure!');
+                  });
             };
 
             var login = function(email, password) {
@@ -19,11 +23,21 @@
                     email: email,
                     password: password
                 }).then(function(data, status, headers, config) {
-                    Authentication.setAuthenticatedAccount(data.data);
+                    setAuthenticatedAccount(data.data);
                     window.location = '/';
                   }, function(data, status, headers, config) {
                     console.error('Epic failure!');
                 });
+            };
+
+            var logout = function() {
+                return $http.post('/api/v1/auth/logout/')
+                    .then(function(data, status, headers, config) {
+                        unauthenticate();
+                        window.location = '/';
+                    }, function(data, status, headers, config) {
+                        console.error('Epic failure!');
+                    });
             };
 
             var getAuthenticatedAccount = function() {
@@ -50,6 +64,7 @@
                 getAuthenticatedAccount: getAuthenticatedAccount,
                 isAuthenticated: isAuthenticated,
                 login: login,
+                logout: logout,
                 register: register,
                 setAuthenticatedAccount: setAuthenticatedAccount,
                 unauthenticate: unauthenticate
